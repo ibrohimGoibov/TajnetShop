@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import img2 from "../../../assets/d44358tsp2tj49o8b2ng.jpg";
 import img3 from "../../../assets/image copy 2.png";
 import  Range  from "rc-slider";
 import "rc-slider/assets/index.css";
-
+import { Link } from "react-router-dom";
+import { useBrandStore } from "../brandApi/brand";
 const Product: React.FC = () => {
   const [range, setRange] = useState<[number, number]>([6990, 1989000]);
+  const brands = useBrandStore((state) => state.brands);
+  const getBrands = useBrandStore((state) => state.getBrands);
+
+  useEffect(() => {
+    getBrands();
+  }, [getBrands]);
 
   return (
     <div>
@@ -17,31 +24,12 @@ const Product: React.FC = () => {
         <div className="num1 w-[300px]">
           <h2 className="text-[18px] mb-[10px]">Категории</h2>
 
-          {[
-            "Автотовары",
-            "Аксессуары",
-            "Бытовая техника",
-            "Бытовая химия",
-            "Дача, сад и огород",
-            "Детские товары",
-            "Здоровье",
-            "Канцтовары",
-            "Книги",
-            "Красота и уход",
-            "Обувь",
-            "Одежда",
-            "Продукты питания",
-            "Спорт и отдых",
-            "Строительство и ремонт",
-            "Зоотовары",
-            "Хобби и творчество",
-            "Электроника",
-          ].map((item) => (
+          {brands.map((e) => (
             <p
-              key={item}
+              key={e.id}
               className="hover:bg-gray-300 px-[20px] py-[10px] rounded-[10px] text-[15px]"
             >
-              {item}
+              {e.brandName}
             </p>
           ))}
 
@@ -113,10 +101,11 @@ const Product: React.FC = () => {
                 </p>
 
                 <p>🌟 4.8 (226 отзывов)</p>
-
+                <Link to={'/cart'}>
                 <button className="flex justify-center items-center gap-[10px] px-[20px] py-[10px] w-full bg-violet-500 text-white mt-[10px] rounded-[10px]">
                   👜 В корзину
                 </button>
+                </Link>
               </div>
             </div>
           ))}

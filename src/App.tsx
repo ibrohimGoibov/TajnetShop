@@ -5,7 +5,12 @@ import LogIn from './store/api/accountApi/logIn'
 import Register from './store/api/accountApi/register'
 import Home from './store/api/pageApi/home'
 import About from './store/api/pageApi/about'
-import Product from './store/api/categoryApi/product'
+import Product from './store/api/productApi/product'
+import Error from './store/api/errorApi/error'
+import Products from './store/api/productApi/product'
+import ProductById from './store/api/productApi/productById'
+import Cart from './store/api/cartApi/cart'
+import CategoriesById from './store/api/categoryApi/categoriesById'
 
 const App = () => {
   const router = createBrowserRouter([
@@ -32,6 +37,26 @@ const App = () => {
         {
           path: 'register',
           element: <Register />
+        },
+        {
+          path: 'error',
+          element: <Error />
+        },
+        {
+          path: 'products',
+          element: <Products />
+        },
+        {
+          path: 'productById/:id',
+          element: <ProductById />
+        },
+        {
+          path: 'cart',
+          element: <Cart />
+        },
+        {
+          path: 'categoriesById/:id',
+          element: <CategoriesById />
         }
       ]
     }
