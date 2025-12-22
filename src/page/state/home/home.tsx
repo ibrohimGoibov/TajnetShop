@@ -13,7 +13,7 @@ import img6 from '../../../assets/image copy 3.png'
 import img7 from '../../../assets/image copy 4.png'
 import img8 from '../../../assets/image copy 5.png'
 import { Link } from 'react-router-dom'
-import { useCategoryStore } from '../categoryApi/category' 
+import { useCategoryStore } from '../../../store/api/categoryApi/category' 
 const Home = () => {
   const categories = useCategoryStore((state) => state.categories);
   const getCategories = useCategoryStore((state) => state.getCategories)
@@ -21,7 +21,7 @@ const Home = () => {
     getCategories()
   }, [getCategories])
   return (
-    <div>
+    <div className='max-w-[1200px] m-auto'>
       <div className="w-[1200px] m-auto my-5">
       <Swiper
         modules={[Navigation, Pagination]}
@@ -78,7 +78,7 @@ const Home = () => {
       <div className="num1 rounded-[20px] mt-[30px] transition-all duration-300 hover:shadow-2xl hover:bg-gray-200">
         <img src={`http://37.27.29.18:8002/images/${e.categoryImage}`} alt="" width={250} className='w-[250px] h-[300px] m-auto' />
         <div className="txt p-[20px]">
-          <div className="flex items-center gap-[10px]">
+          <div className="flevx items-center gap-[10px]">
           <h1 className='text-violet-500 font-[600]'>1 345 200</h1>
           <img src={img3} width={25} alt="" />
           </div>
@@ -98,7 +98,8 @@ const Home = () => {
       })}
       </div>
     </div>
-    </div>
+    <h1 className='text-[40px] font-[600] p-[30px] '>Product</h1>
+    </div> 
   )
 }
 

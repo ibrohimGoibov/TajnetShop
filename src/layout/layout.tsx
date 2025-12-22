@@ -5,7 +5,7 @@ import video from '../assets/grok-video-a8313903-fa01-4de2-9c6a-5e8e3520dd33.mp4
 
 const Layout = () => {
   return (
-    <div>
+    <div className='max-w-[1200px] m-auto'>
       <div className="bg-gray-300">
       <header className='flex items-center justify-between w-[1200px] m-auto p-[5px]'>
         <div className="flex items-center gap-[20px]">

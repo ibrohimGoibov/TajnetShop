@@ -32,7 +32,7 @@ const CategoriesById = () => {
         <div className="flex items-start justify-between w-[90%] mt-[30px]">
             <div className="num1 flex items-start gap-[20px]">
                 <div className="num">
-                    <img src={`http://37.27.29.18:8002/images/${data.categoryImage}`}  className='rounded-[10px] bg-gray-400' width={250} alt="" />
+                    <img src={`http://37.27.29.18:8002/images/${data.categoryImage}`}  className='rounded-[10px] bg-gray-400 ' width={250} alt="" />
                 </div>
                 <div className="num1">
                     <img src={`http://37.27.29.18:8002/images/${data.categoryImage}`} width={450} className='rounded-[20px]' alt="" />

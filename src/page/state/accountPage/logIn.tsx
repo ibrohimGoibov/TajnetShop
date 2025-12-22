@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AntDesignOutlined } from "@ant-design/icons";
 import { Button, ConfigProvider, Space } from "antd";
 import { createStyles } from "antd-style";
-import { useRegisterStore } from "../../store/store";
+import { useRegisterStore } from "../../../store/store/store";
 
 const useStyle = createStyles(({ prefixCls, css }) => ({
   linearGradientButton: css`

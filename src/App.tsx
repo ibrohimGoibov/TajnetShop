@@ -1,16 +1,16 @@
 import React from 'react'
 import Layout from './layout/layout'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import LogIn from './store/api/accountApi/logIn'
-import Register from './store/api/accountApi/register'
-import Home from './store/api/pageApi/home'
-import About from './store/api/pageApi/about'
-import Product from './store/api/productApi/product'
+import Home from './page/state/home/home'
+import About from './page/state/about/about'
+import Product from './page/state/productPage/product'
+import LogIn from './page/state/accountPage/logIn'
+import Register from './page/state/accountPage/register'
 import Error from './store/api/errorApi/error'
-import Products from './store/api/productApi/product'
-import ProductById from './store/api/productApi/productById'
+import ProductById from './page/state/productPage/productById'
 import Cart from './store/api/cartApi/cart'
-import CategoriesById from './store/api/categoryApi/categoriesById'
+import CategoriesById from './page/state/categoryPage/categoriesById'
+
 
 const App = () => {
   const router = createBrowserRouter([
@@ -41,10 +41,6 @@ const App = () => {
         {
           path: 'error',
           element: <Error />
-        },
-        {
-          path: 'products',
-          element: <Products />
         },
         {
           path: 'productById/:id',
