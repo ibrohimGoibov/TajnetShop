@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
-import 'swiper/css'
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
 import img1 from '../../../assets/image copy.png'
-import img2 from '../../../assets/d44358tsp2tj49o8b2ng.jpg'
 import img3 from '../../../assets/image copy 2.png'
 import img4 from '../../../assets/trees.png'
 import img5 from '../../../assets/756b6f56-9d2d-414c-a9d3-37d40d1c808b.png'
@@ -16,9 +12,7 @@ import { Link } from 'react-router-dom'
 import { useCategoryStore } from '../../../store/api/categoryApi/category' 
 import { useProductStore } from '../../../store/api/productApi/products'
 const Home = () => {
-  const categories = useCategoryStore((state) => state.categories);
   const getCategories = useCategoryStore((state) => state.getCategories)
-  const [open, setOpen] = useState(false);
   const { products, getProduct } = useProductStore()
   useEffect(() => {
     getCategories(), getProduct()

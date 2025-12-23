@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import img2 from "../../../assets/d44358tsp2tj49o8b2ng.jpg";
+import { useEffect, useState } from "react";
 import img3 from "../../../assets/image copy 2.png";
 
 import Range from "rc-slider";

@@ -31,13 +31,25 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
 
 const LogIn = () => {
   const [show, setShow] = useState(false);
-  const { postAccaountLogin, loading } = useRegisterStore();
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { postAccountLogin, loading } = useRegisterStore();
   const { styles } = useStyle();
+
+  const handleLogin = () => {
+    postAccountLogin({
+      userName,
+      password,
+    });
+  };
 
   return (
     <div className="flex text-[#3f0f50] items-center flex-col gap-[20px]">
       <input
         type="text"
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
         className="px-[20px] w-[350px] py-[10px] border-gray-400 border-[2px] outline-0 hover:border-violet-500 hover:scale-105 transition-all"
         placeholder="userName"
       />
@@ -45,6 +57,8 @@ const LogIn = () => {
       <div className="relative flex items-center w-[350px] border-gray-400 border-[2px] hover:border-violet-500 transition-all">
         <input
           type={show ? "text" : "password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="px-[20px] py-[10px] w-full outline-0"
           placeholder="password"
         />
@@ -62,16 +76,12 @@ const LogIn = () => {
         <Space>
           <Button
             loading={loading}
+            disabled={!userName || !password}
             className="w-[350px]"
             type="primary"
             size="large"
             icon={<AntDesignOutlined />}
-            onClick={() =>
-              postAccaountLogin({
-                userName: "test",
-                password: "1234",
-              })
-            }
+            onClick={handleLogin}
           >
             Log In
           </Button>

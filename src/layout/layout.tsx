@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import img from '../assets/image.png'
 import video from '../assets/grok-video-a8313903-fa01-4de2-9c6a-5e8e3520dd33.mp4'
 import { Button, Drawer } from 'antd';
 import { useCategoryStore } from '../store/api/categoryApi/category'
@@ -151,3 +150,4 @@ const Layout = () => {
 }
 
 export default Layout
+

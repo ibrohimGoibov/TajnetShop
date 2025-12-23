@@ -29,6 +29,14 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
   `,
 }));
 
+interface RegisterData {
+  userName: string;
+  phoneNumber: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
 const Register = () => {
   const { postRegister, loading } = useRegisterStore();
   const [show, setShow] = useState(false);
@@ -42,16 +50,17 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      await postRegister({
+      const registerData: RegisterData = {
         userName: name,
         phoneNumber: phone,
         email,
         password,
         confirmPassword,
-      });
-      message.success("Регистрация прошла успешно!");
+      };
+      await postRegister(registerData);
+      message.success("Good!");
     } catch (err: any) {
-      message.error(err?.message || "Ошибка регистрации");
+      message.error(err?.message || "Not Good!");
     }
   };
 
@@ -78,8 +87,6 @@ const Register = () => {
         className="px-[20px] w-[350px] py-[10px] border-gray-400 border-[2px] outline-0 hover:border-violet-500 hover:scale-105 hover:text-violet-500 transition-all duration-300"
         placeholder="email"
       />
-
-      {/* Password */}
       <div className="relative flex items-center w-[350px] border-[2px] border-gray-400 hover:border-violet-500 transition-all duration-300">
         <input
           value={password}
@@ -96,8 +103,6 @@ const Register = () => {
           {show ? "🙈" : "👁️"}
         </button>
       </div>
-
-      {/* Confirm Password */}
       <div className="relative flex items-center w-[350px] border-[2px] border-gray-400 hover:border-violet-500 transition-all duration-300">
         <input
           value={confirmPassword}

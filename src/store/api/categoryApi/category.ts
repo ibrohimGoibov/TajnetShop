@@ -21,7 +21,7 @@ interface CategoryStore {
 
 const URL = import.meta.env.VITE_API_URL;
 
-export const useCategoryStore = create<CategoryStore>((set, get) => ({
+export const useCategoryStore = create<CategoryStore>((set) => ({
   categories: [],
 
   getCategories: async () => {
