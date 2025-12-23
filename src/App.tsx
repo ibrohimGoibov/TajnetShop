@@ -10,6 +10,7 @@ import Error from './store/api/errorApi/error'
 import ProductById from './page/state/productPage/productById'
 import CategoriesById from './page/state/categoryPage/categoriesById'
 import Cart from './page/state/cartPage/cart'
+import Task from './page/state/task/task'
 
 
 const App = () => {
@@ -53,6 +54,10 @@ const App = () => {
         {
           path: 'categoriesById/:id',
           element: <CategoriesById />
+        },
+        {
+          path: 'task',
+          element: <Task />
         }
       ]
     }

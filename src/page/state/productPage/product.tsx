@@ -96,7 +96,7 @@ const Product = () => {
                   Цвет: {e.color}
                 </p>
 
-                <Link to={`/cart/:${e.id}`}>
+                <Link to={`/productById/${e.id}`}>
                   <button className="flex justify-center items-center gap-[10px] px-[20px] py-[10px] w-full bg-violet-500 text-white mt-[10px] rounded-[10px]">
                     👜 В корзину
                   </button>

@@ -15,7 +15,7 @@ const ProductById = () => {
   const [data, setData] = useState({})
   async function getProductById() {
     try {
-      const {data} = await axios.get(`http://37.27.29.18:8002/Product/get-product-by-id?id=${id}`)
+      const {data} = await axios.get(`https://store-api.softclub.tj/Product/get-product-by-id?id=${id}`)
       setData(data.data)
     } catch (error) {
       console.error(error);

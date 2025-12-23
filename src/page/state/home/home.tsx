@@ -14,13 +14,12 @@ import img7 from '../../../assets/image copy 4.png'
 import img8 from '../../../assets/image copy 5.png'
 import { Link } from 'react-router-dom'
 import { useCategoryStore } from '../../../store/api/categoryApi/category' 
-import { useProductStore } from "../../../store/api/productApi/products";
+import { useProductStore } from '../../../store/api/productApi/products'
 const Home = () => {
   const categories = useCategoryStore((state) => state.categories);
   const getCategories = useCategoryStore((state) => state.getCategories)
   const [open, setOpen] = useState(false);
-  const products = useProductStore((state) => state.products);
-  const getProduct = useProductStore((state) => state.getProduct);
+  const { products, getProduct } = useProductStore()
   useEffect(() => {
     getCategories(), getProduct()
   }, [getCategories, getProduct])
