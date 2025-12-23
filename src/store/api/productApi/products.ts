@@ -7,6 +7,12 @@ interface Product {
   image: string;
   color: string;
   price: number;
+  images: [
+  {
+    "id": 344,
+    "images": "262a328b-a691-409b-b381-7d7d26f3a08d.webp"
+  }
+];
   hasDiscount: boolean;
   discountPrice: number;
   quantity: number;
@@ -21,13 +27,14 @@ interface ProductStore {
   getProduct: () => Promise<void>;
 }
 
+const URL = import.meta.env.VITE_API_URL;
+
 export const useProductStore = create<ProductStore>((set) => ({
   products: [],
-
   getProduct: async () => {
     try {
       const res = await axios.get(
-        "http://37.27.29.18:8002/Product/get-products"
+        `${URL}/Product/get-products`
       );
       set({
         products: res.data.data.products,

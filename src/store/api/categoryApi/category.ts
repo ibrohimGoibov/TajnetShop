@@ -16,14 +16,17 @@ interface Category {
 interface CategoryStore {
   categories: Category[];
   getCategories: () => Promise<void>;
+  getCategoryById: (id: number) => Promise<void>;
 }
 
-export const useCategoryStore = create<CategoryStore>((set) => ({
+const URL = import.meta.env.VITE_API_URL;
+
+export const useCategoryStore = create<CategoryStore>((set, get) => ({
   categories: [],
-  data: {},
+
   getCategories: async () => {
     try {
-      const res = await axios.get('http://37.27.29.18:8002/Category/get-categories');
+      const res = await axios.get(`${URL}/Category/get-categories`);
       const categoriesArray: Category[] = Array.isArray(res.data)
         ? res.data
         : Array.isArray(res.data?.data)
@@ -36,14 +39,15 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
       set({ categories: [] });
     }
   },
-  getCategoriesById: async (set, get, id) => {
-    try {
-        let res = await axios.get(`http://37.27.29.18:8002/Category/get-category-by-id?id=${id}`)
-        const categoryData = res.data?.data || res.data || null;
-        set({ categories: categoryData ? [categoryData] : [] });
-    } catch (error) {
-        console.error(error);
-    }
-  }
-}));
 
+  getCategoryById: async (id: number) => {
+    try {
+      const res = await axios.get(`${URL}/Category/get-category-by-id?id=${id}`);
+      const categoryData: Category | null = res.data?.data || res.data || null;
+      set({ categories: categoryData ? [categoryData] : [] });
+    } catch (error) {
+      console.error(error);
+      set({ categories: [] });
+    }
+  },
+}));

@@ -8,8 +8,8 @@ import LogIn from './page/state/accountPage/logIn'
 import Register from './page/state/accountPage/register'
 import Error from './store/api/errorApi/error'
 import ProductById from './page/state/productPage/productById'
-import Cart from './store/api/cartApi/cart'
 import CategoriesById from './page/state/categoryPage/categoriesById'
+import Cart from './page/state/cartPage/cart'
 
 
 const App = () => {
@@ -47,7 +47,7 @@ const App = () => {
           element: <ProductById />
         },
         {
-          path: 'cart',
+          path: 'cart/:id',
           element: <Cart />
         },
         {

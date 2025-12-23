@@ -5,6 +5,7 @@ interface Brand {
   id: number;
   brandName: string;
 }
+const URL = import.meta.env.API_URL;
 
 interface BrandStore {
   brands: Brand[];
@@ -15,7 +16,7 @@ export const useBrandStore = create<BrandStore>((set) => ({
   brands: [],
   getBrands: async () => {
     try {
-      let res = await axios.get(`http://37.27.29.18:8002/Brand/get-brands`);
+      let res = await axios.get(`${URL}/Brand/get-brands`);
       const brandsArray = Array.isArray(res.data) ? res.data : res.data?.data || [];
       set({ brands: brandsArray });
     } catch (error) {

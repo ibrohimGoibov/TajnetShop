@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import phone from '../../../assets/crpajrajot51rkb2pajg.jpg'
 import phone1 from '../../../assets/image copy 15.png'
 import iphone from '../../../assets/image copy 16.png'
 import { Tabs } from 'antd';
@@ -32,10 +31,10 @@ const CategoriesById = () => {
         <div className="flex items-start justify-between w-[90%] mt-[30px]">
             <div className="num1 flex items-start gap-[20px]">
                 <div className="num">
-                    <img src={`http://37.27.29.18:8002/images/${data.categoryImage}`}  className='rounded-[10px] bg-gray-400 ' width={250} alt="" />
+                    <img src={`https://store-api.softclub.tj/images/${data.categoryImage}`}  className='rounded-[10px] bg-gray-400 ' width={250} alt="" />
                 </div>
                 <div className="num1">
-                    <img src={`http://37.27.29.18:8002/images/${data.categoryImage}`} width={450} className='rounded-[20px]' alt="" />
+                    <img src={`https://store-api.softclub.tj/images/${data.categoryImage}`} width={450} className='rounded-[20px]' alt="" />
                 <h1 className='text-[25px] font-[600] mt-[10px]'>4.8 <Rate disabled defaultValue={4.8} allowHalf /></h1>
                 <img src={copy} alt="" />
                 </div>

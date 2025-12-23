@@ -1,22 +1,43 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import phone from '../../../assets/crpajrajot51rkb2pajg.jpg'
 import phone1 from '../../../assets/image copy 15.png'
 import iphone from '../../../assets/image copy 16.png'
 import { Tabs } from 'antd';
 import { Rate } from "antd";
 import copy from '../../../assets/image copy 17.png'
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 const onChange = (key: string) => {
   console.log(key);
 };
 const Cart = () => {
+  const  [data, setData] = useState({});
+    const {id} = useParams();
+    async function getById() {
+        try {
+            let {data} = await axios.get(`https://store-api.softclub.tj/Product/get-product-by-id?id=${id}`)
+            setData(data);
+            console.log(data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    useEffect(() => {
+        getById()
+    }, [id])
   return (
     <div className='p-[40px]'>
-        <p>Главная / Все категории / Наборы посуды для приготовления</p>
+        <p>Главная / Все категории / {data.productName}</p>
         <h1 className='text-[30px] font-[400] w-[700px]'>Смартфон iPhone 16 Pro/Pro Max, 128/256 ГБ, 1-SIM/Dual-SIM, чехол в подарок</h1>
         <div className="flex items-start justify-between w-[90%] mt-[30px]">
             <div className="num1 flex items-start gap-[20px]">
                 <div className="num">
-                    <img src={phone}  className='rounded-[10px] ' width={100} alt="" />
+                  {data?.images?.map((e) => {
+                    return (
+                      <img src={`https://store-api.softclub.tj/images/${e.image}`}  className='rounded-[10px] ' width={100} alt="" />
+                    )
+                  })}
                     <img src={phone1} className='rounded-[10px] mt-[20px]' width={100} alt="" />
                 </div>
                 <div className="num1">

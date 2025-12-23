@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -14,12 +14,16 @@ import img7 from '../../../assets/image copy 4.png'
 import img8 from '../../../assets/image copy 5.png'
 import { Link } from 'react-router-dom'
 import { useCategoryStore } from '../../../store/api/categoryApi/category' 
+import { useProductStore } from "../../../store/api/productApi/products";
 const Home = () => {
   const categories = useCategoryStore((state) => state.categories);
   const getCategories = useCategoryStore((state) => state.getCategories)
+  const [open, setOpen] = useState(false);
+  const products = useProductStore((state) => state.products);
+  const getProduct = useProductStore((state) => state.getProduct);
   useEffect(() => {
-    getCategories()
-  }, [getCategories])
+    getCategories(), getProduct()
+  }, [getCategories, getProduct])
   return (
     <div className='max-w-[1200px] m-auto'>
       <div className="w-[1200px] m-auto my-5">
@@ -73,10 +77,10 @@ const Home = () => {
     <h1 className='p-[40px] text-[40px]'>Популярное</h1>
     <div className="p-[40px]">
       <div className='flex items-center justify-evenly flex-wrap'>
-      {categories.map((e) => {
+      {products.map((e) => {
         return (
       <div className="num1 rounded-[20px] mt-[30px] transition-all duration-300 hover:shadow-2xl hover:bg-gray-200">
-        <img src={`http://37.27.29.18:8002/images/${e.categoryImage}`} alt="" width={250} className='w-[250px] h-[300px] m-auto' />
+        <img src={`https://store-api.softclub.tj/images/${e.image}`} alt="" width={250} className='w-[250px] h-[300px] m-auto' />
         <div className="txt p-[20px]">
           <div className="flevx items-center gap-[10px]">
           <h1 className='text-violet-500 font-[600]'>1 345 200</h1>
@@ -84,10 +88,10 @@ const Home = () => {
           </div>
           <p>846 000</p>
           <button className='bg-amber-300 text-[12px] px-[5px] py-[2px] rounded-[5px]'>59 925 сум/мес</button>
-          <p>{e.categoryName}</p>
+          <p>{e.productName}</p>
           <p>🌟4.8 (226 отзывов)</p>
-          <Link to={`/categoriesById/${e.id}`}>
-          <button className='flex justify-center px-[20px] py-[10px] w-[100%] transition-all duration-300 bg-violet-500 hover:bg-white hover:border-violet-500 hover:text-violet-500 text-white mt-[10px] rounded-[10px] items-center gap-[10px]'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-plus" viewBox="0 0 16 16">
+          <Link to={`/productById/${e.id}`}>
+          <button className='flex justify-center px-[20px] py-[10px] w-[100%] transition-all duration-300 bg-violet-500 hover:bg-white hover:border-violet-500 hover:text-violet-500 text-white mt-[10px] rounded-[10px] items-center gap-[10px]'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bag-plus" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5"/>
   <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
 </svg>Завтра</button>
@@ -98,7 +102,6 @@ const Home = () => {
       })}
       </div>
     </div>
-    <h1 className='text-[40px] font-[600] p-[30px] '>Product</h1>
     </div> 
   )
 }
