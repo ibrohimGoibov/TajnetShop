@@ -1,6 +1,10 @@
 import { useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
+declare module '*.css';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import img1 from '../../../assets/image copy.png'
 import img3 from '../../../assets/image copy 2.png'
 import img4 from '../../../assets/trees.png'
