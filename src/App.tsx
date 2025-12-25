@@ -10,6 +10,7 @@ import ProductById from './page/state/productPage/productById'
 import CategoriesById from './page/state/categoryPage/categoriesById'
 import Cart from './page/state/cartPage/cart'
 import Task from './page/state/task/task'
+import SubCategories from './page/state/subCategoriesPage/subCategories'
 
 
 const App = () => {
@@ -47,12 +48,16 @@ const App = () => {
           element: <ProductById />
         },
         {
-          path: 'cart/:id',
+          path: 'cart',
           element: <Cart />
         },
         {
-          path: 'categoriesById/:id',
+          path: 'categories/:id',
           element: <CategoriesById />
+        },
+        {
+          path: 'categories/:id/subcategories',
+          element: <SubCategories />
         },
         {
           path: 'task',

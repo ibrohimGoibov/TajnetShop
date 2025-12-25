@@ -13,14 +13,21 @@ interface RegisterData {
   confirmPassword: string
 }
 
+interface User {
+  id: string
+  name: string
+  email: string
+  [key: string]: any
+}
+
 interface RegisterStore {
   loading: boolean
   error: string | null
   postRegister: (data: RegisterData) => Promise<void>
-  postAccountLogin: (data: LoginData) => Promise<void>
+  postAccountLogin: (data: LoginData) => Promise<User | null>
 }
 
-const apiUrl = import.meta.env.VITE_API_URL
+const URL = import.meta.env.VITE_API_URL;
 
 export const useRegisterStore = create<RegisterStore>((set) => ({
   loading: false,
@@ -29,14 +36,10 @@ export const useRegisterStore = create<RegisterStore>((set) => ({
   postRegister: async (data) => {
     try {
       set({ loading: true, error: null })
-
-      await axios.post(`${apiUrl}/Account/register`, data)
-
+      await axios.post(`${URL}/Account/register`, data)
       message.success('Registered successfully')
     } catch (err: any) {
-      const errorMessage =
-        err?.response?.data?.message || 'Register error'
-
+      const errorMessage = err?.response?.data?.message || 'Register error'
       set({ error: errorMessage })
       message.error(errorMessage)
     } finally {
@@ -47,16 +50,28 @@ export const useRegisterStore = create<RegisterStore>((set) => ({
   postAccountLogin: async (data) => {
     try {
       set({ loading: true, error: null })
+      const res = await axios.post(`${URL}/Account/login`, data)
+      const token = res.data?.data
 
-      await axios.post(`${apiUrl}/Account/login`, data)
+      if (!token) {
+        throw new Error('Login failed: no token returned')
+      }
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      const user: User = {
+        id: payload.sid,
+        name: payload.name,
+        email: payload.email,
+      }
+      localStorage.setItem('token', token)
+      localStorage.setItem('user', JSON.stringify(user))
 
-      message.success('Successful')
+      message.success('Login successful')
+      return user
     } catch (err: any) {
-      const errorMessage =
-        err?.response?.data?.message || 'Login error'
-
+      const errorMessage = err?.response?.data?.message || err.message || 'Login error'
       set({ error: errorMessage })
       message.error(errorMessage)
+      return null
     } finally {
       set({ loading: false })
     }

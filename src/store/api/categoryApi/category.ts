@@ -23,7 +23,6 @@ const URL = import.meta.env.VITE_API_URL;
 
 export const useCategoryStore = create<CategoryStore>((set) => ({
   categories: [],
-
   getCategories: async () => {
     try {
       const res = await axios.get(`${URL}/Category/get-categories`);

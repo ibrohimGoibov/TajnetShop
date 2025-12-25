@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Tabs } from 'antd';
 import { Rate } from "antd";
-import phone1 from '../../../assets/image copy 15.png'
 import iphone from '../../../assets/image copy 16.png'
 import copy from '../../../assets/image copy 17.png'
 const onChange = (key: string) => {
@@ -38,14 +37,12 @@ const ProductById = () => {
         <div className="flex items-start justify-between w-[90%] mt-[30px]">
             <div className="num1 flex items-start gap-[20px]">
                 <div className="num">
-                    <img src={`http://37.27.29.18:8002/Product/get-products`}  className='rounded-[10px] ' width={100} alt="" />
-                    <img src={phone1} className='rounded-[10px] mt-[20px]' width={100} alt="" />
                 </div>
                 <div className="num1">
                     {data?.images?.map((e) => {
                       return (
                         <div>
-                          <img src={`http://37.27.29.18:8002/images/${e.images}`} alt="" />
+                          <img src={`https://store-api.softclub.tj/images/${e.images}`} width={500} alt="" />
                         </div>
                       )
                     })}

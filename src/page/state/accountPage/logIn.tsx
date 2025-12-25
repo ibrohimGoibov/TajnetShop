@@ -39,7 +39,7 @@ const LogIn = () => {
 
   const handleLogin = () => {
     postAccountLogin({
-      userName,
+      userName: userName,
       password,
     });
   };
@@ -81,7 +81,7 @@ const LogIn = () => {
             type="primary"
             size="large"
             icon={<AntDesignOutlined />}
-            onClick={handleLogin}
+            onClick={() => handleLogin()}
           >
             Log In
           </Button>
