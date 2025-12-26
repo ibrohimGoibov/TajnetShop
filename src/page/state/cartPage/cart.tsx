@@ -37,35 +37,6 @@ const Cart = () => {
     }
   };
 
-  const addToCart = async (item: CartItem) => {
-    if (!token) {
-      message.warning("Сначала войдите в аккаунт");
-      return;
-    }
-
-    try {
-      await axios.post(`${API_URL}/Cart/add-product-to-cart?id=${item.id}`, null, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      setCartItems((prev) => {
-        const exist = prev.find((i) => i.id === item.id);
-        if (exist) {
-          return prev.map((i) =>
-            i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
-          );
-        } else {
-          return [...prev, { ...item, quantity: 1 }];
-        }
-      });
-
-      message.success("Товар добавлен в корзину");
-    } catch (err) {
-      console.error(err);
-      message.error("Ошибка при добавлении товара");
-    }
-  };
-
   const changeQuantity = (id: number, delta: number) => {
     setCartItems((prev) =>
       prev.map((item) =>
