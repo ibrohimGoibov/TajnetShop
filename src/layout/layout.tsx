@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import video from '../assets/telegram-cloud-photo-size-2-5354970937419305039-y.jpg'
 import { Button, Drawer } from 'antd';
 import { useCategoryStore } from '../store/api/categoryApi/category'
+import Loading from '../page/state/loading/loading';
+import { ThemeContext } from '../page/state/dark/dark';
 
 const Layout = () => {
   const [open, setOpen] = useState(false);
   const categories = useCategoryStore((state) => state.categories);
   const getCategories = useCategoryStore((state) => state.getCategories)
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const { theme, toggleTheme } = useContext(ThemeContext)
 
   const navigate = useNavigate();
 
@@ -29,7 +33,7 @@ const Layout = () => {
   const [_, setSelectedCategory] = useState<number | null>(null);
 
   useEffect(() => {
-    getCategories();
+    getCategories().finally(() => setLoading(false));
   }, [getCategories]);
 
   const handleCategoryClick = (categoryId: number, subCategoryId?: number) => {
@@ -40,8 +44,15 @@ const Layout = () => {
     }
   };
 
+  if (loading) return <Loading />;
+
   return (
     <div className='max-w-[1240px] m-auto'>
+      <div style={{
+    backgroundColor: theme === "light" ? "#fff" : "#1a1a1a",
+    color: theme === "light" ? "#000" : "#fff",
+    minHeight: "100vh"
+  }}>
       <div className="bg-gray-200">
         <header className='flex items-center justify-between w-[1200px] m-auto p-[5px]'>
           <div className="flex items-center gap-[20px]">
@@ -125,6 +136,8 @@ const Layout = () => {
             </svg>
           </Link>
         </div>
+          <h1>{theme}</h1>
+          <button onClick={() => toggleTheme()}>change</button>
       </ul>
 
       <div>
@@ -137,7 +150,7 @@ const Layout = () => {
         onClose={() => setOpen(false)}
         open={open}
         width={300}
-      >
+        >
         {categories
           .filter(category =>
             category.categoryName.toLowerCase().includes(search.toLowerCase())
@@ -233,6 +246,7 @@ const Layout = () => {
           </div>
         </div>
       </footer>
+    </div>
     </div>
   )
 }
