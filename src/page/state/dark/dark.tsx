@@ -1,12 +1,8 @@
-import React, { createContext, useState, ReactNode } from 'react';
+import { createContext, useState } from 'react';
 
 interface ThemeContextProps {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
-}
-
-interface DarkProps {
-  children: ReactNode;
 }
 
 export const ThemeContext = createContext<ThemeContextProps>({
@@ -14,16 +10,16 @@ export const ThemeContext = createContext<ThemeContextProps>({
   toggleTheme: () => {},
 });
 
-const Dark: React.FC<DarkProps> = ({ children }) => {
+const Dark = ({ children }: any) => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
   };
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+        {children}
     </ThemeContext.Provider>
   );
 };
