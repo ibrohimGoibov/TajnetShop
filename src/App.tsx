@@ -11,6 +11,7 @@ import CategoriesById from './page/state/categoryPage/categoriesById'
 import Cart from './page/state/cartPage/cart'
 import Task from './page/state/task/task'
 import SubCategories from './page/state/subCategoriesPage/subCategories'
+import TestPage from './bot'
 
 
 const App = () => {
@@ -30,6 +31,10 @@ const App = () => {
         {
           path: 'product',
           element: <Product />
+        },
+        {
+          path: 'testPage',
+          element: <TestPage />
         },
         {
           path: 'logIn',

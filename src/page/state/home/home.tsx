@@ -12,6 +12,8 @@ import images4 from '../../../assets/image copy 22.png'
 import { Link } from 'react-router-dom'
 import { useCategoryStore } from '../../../store/api/categoryApi/category' 
 import { useProductStore } from '../../../store/api/productApi/products'
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Home = () => {
   const getCategories = useCategoryStore((state) => state.getCategories)
@@ -36,7 +38,8 @@ const Home = () => {
   useEffect(() => {
     if (sliderRef.current) {
       sliderRef.current.style.transform = `translateX(-${currentIndex * 100}%)`
-    }
+    };
+    AOS.init({ duration: 1000 });
   }, [currentIndex])
 
   return (
@@ -64,16 +67,15 @@ const Home = () => {
       </div>
 
       <h1 className='p-[40px] text-[40px]'>Популярное</h1>
-      <div className="p-[40px]">
-        <div className='flex items-center justify-evenly flex-wrap'>
+      <div data-aos="zoom-out-up" className="p-[40px] flex flex-wrap justify-start gap-[40px]">
           {products.map((e) => (
-            <div key={e.id} className="num1 rounded-[20px] mt-[30px] transition-all duration-300 hover:shadow-2xl hover:bg-gray-200">
+            <div key={e.id} className="num1 rounded-[20px] mt-[30px] transition-all duration-300 hover:shadow-2xl hover:bg-gray-200 w-[300px]">
               <div className="relative group w-[250px] h-[300px] m-auto">
                 <img
                   src={`https://store-api.softclub.tj/images/${e.image}`}
                   alt=""
                   className="w-full h-full object-cover rounded-[15px]"
-                />
+                  />
                 <div className="absolute inset-0 flex items-center justify-center 
                                 bg-black/40 opacity-0 group-hover:opacity-100 
                                 transition-all duration-300 rounded-[15px]">
@@ -84,7 +86,7 @@ const Home = () => {
                     fill="white"
                     viewBox="0 0 16 16"
                     className="cursor-pointer hover:scale-110 transition"
-                  >
+                    >
                     <path d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5"/>
                     <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1"/>
                     <path d="M1 4h14v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2z"/>
@@ -109,9 +111,8 @@ const Home = () => {
               </div>
             </div>
           ))}
+          </div>
         </div>
-      </div>
-    </div>
   )
 }
 

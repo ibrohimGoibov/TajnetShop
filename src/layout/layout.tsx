@@ -15,15 +15,18 @@ const Layout = () => {
   const token = localStorage.getItem('token');
 
   let user = null;
-try {
-  const storedUser = localStorage.getItem('user')
-  if (storedUser) {
-    user = JSON.parse(storedUser);
+  try {
+    const storedUser = localStorage.getItem('user')
+    if (storedUser) {
+      user = JSON.parse(storedUser);
+    }
+  } catch (error) {
+    console.error(error);
+    localStorage.removeItem('user');
   }
-} catch (error) {
-  console.error(error);
-  localStorage.removeItem('user');
-}
+
+  const [search, setSearch] = useState("");
+  const [_, setSelectedCategory] = useState<number | null>(null);
 
   useEffect(() => {
     getCategories();
@@ -59,7 +62,7 @@ try {
 
       <ul className='flex items-center justify-evenly w-[1200px] gap-[30px] p-[10px]'>
         <Link to={'/'}>
-        <img src={video} className='w-[190px]' alt="Logo" />
+          <img src={video} className='w-[190px]' alt="Logo" />
         </Link>
         <button 
           onClick={() => setOpen(true)}
@@ -69,7 +72,13 @@ try {
         </button>
 
         <div className="flex items-center justify-between gap-[10px] w-[500px] h-[40px] border border-gray-300 rounded-[5px] px-[30px] py-[10px]">
-          <input type="text" placeholder='Искать в подборке' style={{outline: 'none'}} />
+          <input
+            type="text"
+            placeholder='Искать в подборке'
+            style={{outline: 'none'}}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
           </svg>
@@ -79,7 +88,6 @@ try {
           <li><Link to={'/'}>Home</Link></li>
           <li><Link to={'/about'}>About</Link></li>
           <li><Link to={'/product'}>Product</Link></li>
-          <Button type="primary" onClick={() => setOpen(true)}>Categories</Button>
         </div>
 
         <div className="num2 flex items-center gap-[20px]">
@@ -90,6 +98,7 @@ try {
             {!token && (
               <>
                 <Link to="/logIn">Вход</Link>
+                /
                 <Link to="/register">Регистрация</Link>
               </>
             )}
@@ -129,38 +138,49 @@ try {
         open={open}
         width={300}
       >
-        {categories.map((category) => (
-          <div key={category.id} className="mb-[5px]">
-            <div
-              className='flex items-end gap-[5px] hover:bg-gray-300 p-[10px] rounded-[5px] cursor-pointer'
-              onClick={() => setExpandedCategory(prev => prev === category.id ? null : category.id)}
-            >
-              <img 
-                src={`https://store-api.softclub.tj/images/${category.categoryImage}`} 
-                width={30} 
-                alt={category.categoryName}
-                onError={(ev) => ev.currentTarget.src = 'https://via.placeholder.com/30?text=?'}
-              />
-              <h1 className='mt-[10px]'>{category.categoryName}</h1>
-              <Button type="link" onClick={() => handleCategoryClick(category.id)}>Перейти</Button>
-            </div>
-
-            {expandedCategory === category.id && category.subCategories?.length > 0 && (
-              <div className='ml-[20px] mt-[5px]'>
-                {category.subCategories.map((sub) => (
-                  <div 
-                    key={sub.id} 
-                    className='p-[5px] hover:bg-gray-200 rounded-[5px] cursor-pointer'
-                    onClick={() => handleCategoryClick(category.id, sub.id)}
-                  >
-                    {sub.subCategoryName}
-                  </div>
-                ))}
+        {categories
+          .filter(category =>
+            category.categoryName.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((category) => (
+            <div key={category.id} className="mb-[5px]">
+              <div
+                className='flex items-end gap-[5px] hover:bg-gray-300 p-[10px] rounded-[5px] cursor-pointer'
+                onClick={() => {
+                  setExpandedCategory(prev => prev === category.id ? null : category.id);
+                  setSelectedCategory(category.id);
+                }}
+              >
+                <img 
+                  src={`https://store-api.softclub.tj/images/${category.categoryImage}`} 
+                  width={30} 
+                  alt={category.categoryName}
+                  onError={(ev) => ev.currentTarget.src = 'https://via.placeholder.com/30?text=?'}
+                />
+                <h1 className='mt-[10px]'>{category.categoryName}</h1>
+                <Button type="link" onClick={() => handleCategoryClick(category.id)}>Перейти</Button>
               </div>
-            )}
-          </div>
+
+              {expandedCategory === category.id && category.subCategories?.length > 0 && (
+                <div className='ml-[20px] mt-[5px]'>
+                  {category.subCategories
+                    .filter(sub => sub.subCategoryName.toLowerCase().includes(search.toLowerCase()))
+                    .map((sub) => (
+                      <div 
+                        key={sub.id} 
+                        className='p-[5px] hover:bg-gray-200 rounded-[5px] cursor-pointer'
+                        onClick={() => handleCategoryClick(category.id, sub.id)}
+                      >
+                        {sub.subCategoryName}
+                      </div>
+                    ))
+                  }
+                </div>
+              )}
+            </div>
         ))}
       </Drawer>
+
       <footer className='mt-[50px] p-[20px] margin-[20px]'>
         <div className="flex items-center justify-evenly items-start">
           <div className="num1 text-gray-400">
