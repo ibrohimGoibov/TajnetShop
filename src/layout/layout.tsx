@@ -53,23 +53,6 @@ const Layout = () => {
     color: theme === "light" ? "#000" : "#fff",
     minHeight: "100vh"
   }}>
-      <div className="bg-gray-200">
-        <header className='flex items-center justify-between w-[1200px] m-auto p-[5px]'>
-          <div className="flex items-center gap-[20px]">
-            <select>
-              <option value="">Ташкент</option>
-            </select>
-            <h2>Пункты выдачи</h2>
-          </div>
-          <div className="num2 flex items-center gap-[20px]">
-            <h3 className='text-violet-500'>Стать продавцом</h3>
-            <h3 className='text-violet-500'>Открыть пункт выдачи</h3>
-            <h3>Вопрос-ответ</h3>
-            <h3>Мои заказы</h3>
-            <h2>Russion</h2>
-          </div>
-        </header>
-      </div>
 
       <ul className='flex items-center justify-evenly w-[1200px] gap-[30px] p-[10px]'>
         <Link to={'/'}>
