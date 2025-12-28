@@ -21,8 +21,9 @@
     "rc-slider": "^11.1.9",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^7.11.0",
-    "require": "^2.4.20",
+    "require": "^0.4.4",
     "swiper": "^12.0.3",
     "tailwindcss": "^4.1.18",
     "zustand": "^5.0.9"

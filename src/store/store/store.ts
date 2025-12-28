@@ -53,9 +53,7 @@ export const useRegisterStore = create<RegisterStore>((set) => ({
       const res = await axios.post(`${URL}/Account/login`, data)
       const token = res.data?.data
 
-      if (!token) {
-        throw new Error('Login failed: no token returned')
-      }
+   
       const payload = JSON.parse(atob(token.split('.')[1]))
       const user: User = {
         id: payload.sid,

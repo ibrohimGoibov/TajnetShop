@@ -5,6 +5,7 @@ import { Button, Drawer } from 'antd';
 import { useCategoryStore } from '../store/api/categoryApi/category'
 import Loading from '../page/state/loading/loading';
 import { ThemeContext } from '../page/state/dark/dark';
+import '../App.css'
 
 const Layout = () => {
   const [open, setOpen] = useState(false);
@@ -47,14 +48,15 @@ const Layout = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className='max-w-[1240px] m-auto'>
-      <div style={{
-    backgroundColor: theme === "light" ? "#fff" : "#1a1a1a",
-    color: theme === "light" ? "#000" : "#fff",
+      <div
+  style={{
+    backgroundColor: theme === "light" ? "#222121" : "white",
+    color: theme === "dark" ? "#222121" : "white",
     minHeight: "100vh"
-  }}>
+  }}
+>
 
-      <ul className='flex items-center justify-evenly w-[1200px] gap-[30px] p-[10px]'>
+      <ul className='flex items-center justify-evenly w-[1200px] m-auto gap-[30px] p-[10px]'>
         <Link to={'/'}>
           <img src={video} className='w-[190px]' alt="Logo" />
         </Link>
@@ -79,9 +81,9 @@ const Layout = () => {
         </div>
 
         <div className="num1 flex items-center m-auto gap-[20px]">
-          <li><Link to={'/'}>Home</Link></li>
-          <li><Link to={'/about'}>About</Link></li>
-          <li><Link to={'/product'}>Product</Link></li>
+          <li className='text-[17px]'><Link to={'/'}>Home</Link></li>
+          <li className='text-[17px]'><Link to={'/about'}>About</Link></li>
+          <li className='text-[17px]'><Link to={'/product'}>Product</Link></li>
         </div>
 
         <div className="num2 flex items-center gap-[20px]">
@@ -92,8 +94,6 @@ const Layout = () => {
             {!token && (
               <>
                 <Link to="/logIn">Вход</Link>
-                /
-                <Link to="/register">Регистрация</Link>
               </>
             )}
             {token && (
@@ -114,9 +114,9 @@ const Layout = () => {
             )}
           </li>
           <Link to={'/cart'}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-bag" viewBox="0 0 16 16">
-              <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
+  <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
+</svg>
           </Link>
         </div>
           <h1>{theme}</h1>
@@ -132,7 +132,7 @@ const Layout = () => {
         placement="left"
         onClose={() => setOpen(false)}
         open={open}
-        width={300}
+        width={400}
         >
         {categories
           .filter(category =>
@@ -154,7 +154,6 @@ const Layout = () => {
                   onError={(ev) => ev.currentTarget.src = 'https://via.placeholder.com/30?text=?'}
                 />
                 <h1 className='mt-[10px]'>{category.categoryName}</h1>
-                <Button type="link" onClick={() => handleCategoryClick(category.id)}>Перейти</Button>
               </div>
 
               {expandedCategory === category.id && category.subCategories?.length > 0 && (
@@ -177,7 +176,7 @@ const Layout = () => {
         ))}
       </Drawer>
 
-      <footer className='mt-[50px] p-[20px] margin-[20px]'>
+      <footer className='mt-[50px] p-[20px] margin-[50px]'>
         <div className="flex items-center justify-evenly items-start">
           <div className="num1 text-gray-400">
             <p className='text-black text-[17px]'>О нас</p>
@@ -229,7 +228,6 @@ const Layout = () => {
           </div>
         </div>
       </footer>
-    </div>
     </div>
   )
 }

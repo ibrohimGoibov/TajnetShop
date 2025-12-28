@@ -1,119 +1,128 @@
-import { useEffect, useRef, useState } from 'react'
-import img3 from '../../../assets/image copy 2.png'
-import img4 from '../../../assets/trees.png'
-import img5 from '../../../assets/756b6f56-9d2d-414c-a9d3-37d40d1c808b.png'
-import img6 from '../../../assets/image copy 3.png'
-import img7 from '../../../assets/image copy 4.png'
-import img8 from '../../../assets/image copy 5.png'
-import images1 from '../../../assets/image copy 20.png'
-import images2 from '../../../assets/image copy 2.png'
-import images3 from '../../../assets/image copy 21.png'
-import images4 from '../../../assets/image copy 22.png'
-import { Link } from 'react-router-dom'
-import { useCategoryStore } from '../../../store/api/categoryApi/category' 
-import { useProductStore } from '../../../store/api/productApi/products'
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import AOS from "aos";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "aos/dist/aos.css";
 
+import imgLike from "../../../assets/image copy 2.png";
+import banner1 from "../../../assets/image copy 20.png";
+import banner2 from "../../../assets/image copy 21.png";
+import banner3 from "../../../assets/image copy 22.png";
+
+import { useCategoryStore } from "../../../store/api/categoryApi/category";
+import { useProductStore } from "../../../store/api/productApi/products";
+
 const Home = () => {
-  const getCategories = useCategoryStore((state) => state.getCategories)
-  const { products, getProduct } = useProductStore()
+  const getCategories = useCategoryStore((s) => s.getCategories);
+  const { products, getProduct } = useProductStore();
 
-  const sliderRef = useRef<HTMLDivElement>(null)
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const images = [images1, images2, images3, images4]
+  const banners = [banner1, banner2, banner3];
 
   useEffect(() => {
-    getCategories()
-    getProduct()
-  }, [getCategories, getProduct])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % images.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [images.length])
-
-  useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.style.transform = `translateX(-${currentIndex * 100}%)`
-    };
-    AOS.init({ duration: 1000 });
-  }, [currentIndex])
+    getCategories();
+    getProduct();
+    AOS.init({ duration: 900, once: true });
+  }, []);
 
   return (
-    <div className='max-w-[1200px] m-auto'>
-      <div className="overflow-hidden w-full relative h-[400px] my-5">
-        <div
-          ref={sliderRef}
-          className="flex transition-transform duration-500 ease-in-out"
-        >
-          {images.map((src, i) => (
+    <div className="min-h-screen w-[90%] m-auto mt-[30px]">
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay]}
+        navigation
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 3500 }}
+        loop
+        className="rounded-b-[40px] overflow-hidden"
+      >
+        {banners.map((img, i) => (
+          <SwiperSlide key={i}>
             <img
-              key={i}
-              src={src}
+              src={img}
+              className="w-full h-[420px] object-cover"
+              alt="banner"
             />
-          ))}
-        </div>
-      </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
-      <div className="flex items-center justify-evenly">
-        <button className='flex items-center gap-[10px] px-[20px] py-[10px] bg-gray-300 w-[200px] h-[60px] justify-center rounded-[10px]'><img src={img8} width={25} alt="" />Мужская одежда</button>
-        <button className='flex items-center gap-[10px] px-[20px] py-[10px] bg-gray-300 w-[200px] h-[60px] justify-center rounded-[10px]'><img src={img5} width={25} alt="" />Детский мир</button>
-        <button className='flex items-center gap-[10px] px-[20px] py-[10px] bg-gray-300 w-[200px] h-[60px] justify-center rounded-[10px]'><img src={img6} width={25} alt="" />Гарантия низких цен</button>
-        <button className='flex items-center gap-[10px] px-[20px] py-[10px] bg-gray-300 w-[200px] h-[60px] justify-center rounded-[10px]'><img src={img7} width={25} alt="" />Модный базар</button>
-        <button className='flex items-center gap-[10px] px-[20px] py-[10px] bg-gray-300 w-[200px] h-[60px] justify-center rounded-[10px]'><img src={img4} width={25} alt="" />Новый год</button>
-      </div>
+      <h1 className="text-[42px] font-bold px-[40px] mt-[60px]">
+        🔥 Популярное
+      </h1>
 
-      <h1 className='p-[40px] text-[40px]'>Популярное</h1>
-      <div data-aos="zoom-out-up" className="p-[40px] flex flex-wrap justify-start gap-[40px]">
-          {products.map((e) => (
-            <div key={e.id} className="num1 rounded-[20px] mt-[30px] transition-all duration-300 hover:shadow-2xl hover:bg-gray-200 w-[300px]">
-              <div className="relative group w-[250px] h-[300px] m-auto">
-                <img
-                  src={`https://store-api.softclub.tj/images/${e.image}`}
-                  alt=""
-                  className="w-full h-full object-cover rounded-[15px]"
-                  />
-                <div className="absolute inset-0 flex items-center justify-center 
-                                bg-black/40 opacity-0 group-hover:opacity-100 
-                                transition-all duration-300 rounded-[15px]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="40"
-                    height="40"
-                    fill="white"
-                    viewBox="0 0 16 16"
-                    className="cursor-pointer hover:scale-110 transition"
-                    >
-                    <path d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5"/>
-                    <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1"/>
-                    <path d="M1 4h14v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2z"/>
-                  </svg>
+      <div
+        data-aos="fade-up"
+        className="p-[40px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[40px]"
+      >
+        {products.map((p) => (
+          <div
+            key={p.id}
+            className="bg-white rounded-[24px] overflow-hidden shadow-md
+                       hover:shadow-2xl transition-all duration-300
+                       hover:-translate-y-2"
+          >
+            <div className="relative group h-[280px]">
+              <img
+                src={`https://store-api.softclub.tj/images/${p.image}`}
+                className="w-full h-full object-cover"
+                alt={p.productName}
+              />
+
+              <div
+                className="absolute inset-0 bg-black/40 flex items-center justify-center
+                           opacity-0 group-hover:opacity-100 transition"
+              >
+                <div className="bg-white p-[14px] rounded-full hover:scale-110 transition cursor-pointer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-basket2" viewBox="0 0 16 16">
+  <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z"/>
+  <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z"/>
+</svg>
                 </div>
-              </div>
-
-              <div className="txt p-[20px]">
-                <div className="flex items-center gap-[10px]">
-                  <h1 className="text-violet-500 font-[600]">1 345 200</h1>
-                  <img src={img3} width={25} alt="" />
-                </div>
-                <p>846 000</p>
-                <button className="bg-amber-300 text-[12px] px-[5px] py-[2px] rounded-[5px]">
-                  59 925 сум/мес
-                </button>
-                <p>{e.productName}</p>
-                <p>🌟4.8 (226 отзывов)</p>
-                <Link to={`productById/${e.id}`}>
-                  <button className='py-[10px] w-[100%] bg-violet-500 rounded-[5px] text-white mt-[10px] hover:bg-violet-400'>Завтра</button>
-                </Link>
               </div>
             </div>
-          ))}
-          </div>
-        </div>
-  )
-}
 
-export default Home
+            <div className="p-[20px] space-y-[8px]">
+              <div className="flex items-center gap-[10px]">
+                <span className="text-violet-600 font-bold text-[18px]">
+                  1 345 200
+                </span>
+                <img src={imgLike} width={22} />
+              </div>
+
+              <p className="text-gray-400 line-through">1 846 000</p>
+
+              <span className="inline-block bg-amber-300 text-[12px] px-[8px] py-[3px] rounded-full">
+                59 925 сум/мес
+              </span>
+
+              <p className="font-medium line-clamp-2">
+                {p.productName}
+              </p>
+
+              <p className="text-sm text-gray-500">
+                ⭐ 4.8 (226 отзывов)
+              </p>
+
+              <Link to={`productById/${p.id}`}>
+                <button
+                  className="w-full mt-[10px] py-[10px]
+                             bg-gradient-to-r from-violet-500 to-fuchsia-500
+                             text-white rounded-[12px]
+                             hover:opacity-90 transition"
+                >
+                  Купить
+                </button>
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Home;
