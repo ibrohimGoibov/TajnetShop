@@ -149,7 +149,6 @@ const Layout = () => {
                 className='flex items-end gap-[5px] hover:bg-gray-300 p-[10px] rounded-[5px] cursor-pointer'
                 onClick={() => {
                   setExpandedCategory(prev => prev === category.id ? null : category.id);
-                  setSelectedCategory(category.id);
                 }}
               >
                 <img 
