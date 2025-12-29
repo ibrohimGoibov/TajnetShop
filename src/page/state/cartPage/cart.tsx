@@ -13,7 +13,7 @@ const Cart = () => {
       const res = await fetch(
         `https://store-api.softclub.tj/Cart/get-products-from-cart`,
         {
-          headers: {
+          headers: { 
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }

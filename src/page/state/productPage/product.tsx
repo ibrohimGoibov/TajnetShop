@@ -21,6 +21,9 @@ const API_URL = "https://store-api.softclub.tj";
 const Product = () => {
   const [range, setRange] = useState<[number, number]>([6990, 1989000]);
   const [addingId, setAddingId] = useState<number | null>(null);
+  const [searchValue, setSearchValue] = useState<string>("");
+
+  
   
   const brands = useBrandStore((state) => state.brands);
   const getBrands = useBrandStore((state) => state.getBrands);
@@ -49,6 +52,7 @@ const addToCart = async (id: any) => {
     console.error("Чтото пошло не так.");
     }
   }
+
   useEffect(() => {
     getBrands();
     getProduct();

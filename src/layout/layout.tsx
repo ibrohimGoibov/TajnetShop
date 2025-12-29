@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import video from '../assets/telegram-cloud-photo-size-2-5354970937419305039-y.jpg'
-import { Button, Drawer } from 'antd';
+import { Drawer, Switch } from 'antd';
 import { useCategoryStore } from '../store/api/categoryApi/category'
 import Loading from '../page/state/loading/loading';
 import { ThemeContext } from '../page/state/dark/dark';
@@ -14,6 +14,7 @@ const Layout = () => {
   const [expandedCategory, setExpandedCategory] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const { theme, toggleTheme } = useContext(ThemeContext)
+  const [search, setSearch] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -29,10 +30,6 @@ const Layout = () => {
     console.error(error);
     localStorage.removeItem('user');
   }
-
-  const [search, setSearch] = useState("");
-  const [_, setSelectedCategory] = useState<number | null>(null);
-
   useEffect(() => {
     getCategories().finally(() => setLoading(false));
   }, [getCategories]);
@@ -49,6 +46,7 @@ const Layout = () => {
 
   return (
       <div
+      className='max-w-[1664px] m-auto'
   style={{
     backgroundColor: theme === "light" ? "#222121" : "white",
     color: theme === "dark" ? "#222121" : "white",
@@ -64,26 +62,29 @@ const Layout = () => {
           onClick={() => setOpen(true)}
           className='px-[20px] py-[10px] bg-violet-200 text-violet-400 rounded-[5px]'
         >
-          Katalog
+          Catalog
         </button>
 
         <div className="flex items-center justify-between gap-[10px] w-[500px] h-[40px] border border-gray-300 rounded-[5px] px-[30px] py-[10px]">
           <input
-            type="text"
-            placeholder='Искать в подборке'
-            style={{outline: 'none'}}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+  type="text"
+  placeholder="Искать в подборке"
+  value={search}
+  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+    setSearch(e.target.value)
+  }
+  className="w-full outline-none"
+/>
+
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
           </svg>
         </div>
 
         <div className="num1 flex items-center m-auto gap-[20px]">
-          <li className='text-[17px]'><Link to={'/'}>Home</Link></li>
-          <li className='text-[17px]'><Link to={'/about'}>About</Link></li>
-          <li className='text-[17px]'><Link to={'/product'}>Product</Link></li>
+          <li className='text-[17px]'><Link to={'/heart'}>Избранные</Link></li>
+          <li className='text-[17px]'><Link to={'/about'} className='flex items-center gap-[5px]'><span>О</span>нас</Link></li>
+          <li className='text-[17px]'><Link to={'/product'}>Продукты</Link></li>
         </div>
 
         <div className="num2 flex items-center gap-[20px]">
@@ -114,13 +115,17 @@ const Layout = () => {
             )}
           </li>
           <Link to={'/cart'}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-cart4" viewBox="0 0 16 16">
   <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"/>
 </svg>
           </Link>
         </div>
-          <h1>{theme}</h1>
-          <button onClick={() => toggleTheme()}>change</button>
+          <Switch
+  checked={theme === "dark"}
+  onChange={toggleTheme}
+  checkedChildren="🌙"
+  unCheckedChildren="☀️"
+/>
       </ul>
 
       <div>
@@ -232,4 +237,4 @@ const Layout = () => {
   )
 }
 
-export default Layout;
+export default Layout

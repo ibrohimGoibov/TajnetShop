@@ -12,6 +12,7 @@ import Cart from './page/state/cartPage/cart'
 import Task from './page/state/task/task'
 import SubCategories from './page/state/subCategoriesPage/subCategories'
 import TestPage from './bot'
+import Heart from './page/state/heart/heart'
 
 
 const App = () => {
@@ -67,6 +68,10 @@ const App = () => {
         {
           path: 'task',
           element: <Task />
+        },
+        {
+          path: 'heart',
+          element: <Heart />
         }
       ]
     }
