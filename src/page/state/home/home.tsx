@@ -5,10 +5,12 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import AOS from "aos";
 import '../../../App.css'
 import "aos/dist/aos.css"
-
-import  'swiper/css';
-import  'swiper/css/navigation';
-import  'swiper/css/pagination';
+// @ts-ignore
+import 'swiper/css';
+// @ts-ignore
+import 'swiper/css/navigation';
+// @ts-ignore
+import 'swiper/css/pagination';
 
 import imgLike from "../../../assets/image copy 2.png";
 import banner1 from "../../../assets/image copy 20.png";
