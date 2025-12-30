@@ -101,6 +101,7 @@ const Heart = () => {
               <img
               className="rounded"
                 src={`https://store-api.softclub.tj/images/${e?.images[0]?.images}`}
+                width={300}
               />
             </div>
             <div className="product-info">

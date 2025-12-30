@@ -57,8 +57,7 @@ const Home = () => {
         pagination={{ clickable: true }}
         autoplay={{ delay: 3500 }}
         loop
-        className="rounded-b-[40px] overflow-hidden"
-      >
+        className="rounded-b-[40px] overflow-hidden">
         {banners.map((img, i) => (
           <SwiperSlide key={i}>
             <img

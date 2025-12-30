@@ -9,10 +9,22 @@ import { useCategoryStore } from "../../../store/api/categoryApi/category";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
+import { IoMdHeart, IoIosHeartEmpty } from "react-icons/io";
+
+interface ProductType {
+  id: number;
+  productName: string;
+  image: string;
+  price: number;
+}
+
+const API_URL = "https://store-api.softclub.tj";
 
 const Product = () => {
   const [range, setRange] = useState<[number, number]>([6990, 1989000]);
-  const [addingId, _] = useState<number | null>(null);
+  const [addingId, setAddingId] = useState<number | null>(null);
+  const [searchValue, setSearchValue] = useState<string>("");
+
   const brands = useBrandStore((state) => state.brands);
   const getBrands = useBrandStore((state) => state.getBrands);
   const products = useProductStore((state) => state.products);
@@ -21,11 +33,13 @@ const Product = () => {
   const categories = useCategoryStore((state) => state.categories);
 
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
+  const [likedIds, setLikedIds] = useState<Set<number>>(new Set());
 
   const toggleCategory = (id: number) => {
     setActiveCategory(activeCategory === id ? null : id);
-  };   
-const addToCart = async (id: any) => {
+  };
+
+  const addToCart = async (id: any) => {
     try {
       await axios.post(
         `https://store-api.softclub.tj/Cart/add-product-to-cart?id=${id}`,
@@ -37,16 +51,43 @@ const addToCart = async (id: any) => {
         }
       );
     } catch {
-    console.error("Чтото пошло не так.");
+      console.error("Что-то пошло не так.");
     }
-  }
+  };
 
   useEffect(() => {
+    const saved = localStorage.getItem("id");
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setLikedIds(new Set(Array.isArray(parsed) ? parsed : []));
+      } catch {}
+    }
     getBrands();
     getProduct();
     getCategories();
     AOS.init({ duration: 1000 });
   }, [getBrands, getProduct, getCategories]);
+
+  const toggleFavorite = (id: number) => {
+    setLikedIds(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+
+      const arr = Array.from(newSet);
+      if (arr.length) {
+        localStorage.setItem("id", JSON.stringify(arr));
+      } else {
+        localStorage.removeItem("id");
+      }
+
+      return newSet;
+    });
+  };
 
   return (
     <div>
@@ -158,61 +199,77 @@ const addToCart = async (id: any) => {
         </div>
 
         <div data-aos="zoom-out-up" className="flex items-center justify-evenly flex-wrap gap-[20px]">
-          {products.map((e) => (
-            <div
-              key={e.id}
-              className="num1 rounded-[20px] mt-[30px] transition-all duration-300 hover:shadow-2xl hover:bg-gray-200"
-            >
-              <div className="relative group w-[250px] h-[300px] m-auto">
-                <img
-                  src={`https://store-api.softclub.tj/images/${e.image}`}
-                  alt={e.productName}
-                  className="w-full h-full object-cover rounded-[15px]"
-                />
+          {products.map((e) => {
+            const isLiked = likedIds.has(e.id);
 
-                <div
-                  className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-[15px] cursor-pointer"
-                >
-                  {addingId === e.id ? (
-                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-white"></div>
-                  ) : (
-                    <div 
-                    onClick={() => addToCart(e.id)} className="w-[50px] h-[50px] bg-white rounded-[50%] flex items-center justify-center hover:scale-110 transition-transform">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-basket2" viewBox="0 0 16 16">
-                        <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z"/>
-                        <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z"/>
-                      </svg>
+            return (
+              <div
+                key={e.id}
+                className="num1 rounded-[20px] mt-[30px] transition-all duration-300 hover:shadow-2xl hover:bg-gray-200"
+              >
+                <div className="relative group w-[250px] h-[300px] m-auto">
+                  <img
+                    src={`https://store-api.softclub.tj/images/${e.image}`}
+                    alt={e.productName}
+                    className="w-full h-full object-cover rounded-[15px]"
+                  />
+
+                  <div
+                    className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-[15px] cursor-pointer"
+                  >
+                    {addingId === e.id ? (
+                      <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-white"></div>
+                    ) : (
+                      <div 
+                        onClick={() => addToCart(e.id)} 
+                        className="w-[50px] h-[50px] bg-white rounded-[50%] flex items-center justify-center hover:scale-110 transition-transform"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-basket2" viewBox="0 0 16 16">
+                          <path d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0z"/>
+                          <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6z"/>
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="txt p-[20px]">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-[10px]">
+                      <h1 className="text-violet-500 font-[600]">{e.price}</h1>
+                      <img src={img3} width={25} alt="" />
                     </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="txt p-[20px]">
-                <div className="flex items-center gap-[10px]">
-                  <h1 className="text-violet-500 font-[600]">{e.price}</h1>
-                  <img src={img3} width={25} alt="" />
-                </div>
-                <p>846 000</p>
-                <button className="bg-amber-300 text-[12px] px-[5px] py-[2px] rounded-[5px]">
-                  59 925 сум/мес
-                </button>
-                <p>{e.productName}</p>
-                <p>🌟4.8 (226 отзывов)</p>
-
-                <button
-                  className="mt-2 py-1 px-2 bg-violet-500 text-white rounded hover:bg-violet-400"
-                >
-                  Click to Telegram Bot
-                </button>
-
-                <Link to={`/productById/${e.id}`}>
-                  <button className="py-[10px] w-[100%] bg-violet-500 rounded-[5px] text-white mt-[10px] hover:bg-violet-400">
-                    Купить
+                    <div onClick={() => toggleFavorite(e.id)} className="cursor-pointer">
+                      {isLiked ? (
+                        <IoMdHeart className="text-red-500 text-xl" />
+                      ) : (
+                        <IoIosHeartEmpty className="text-gray-400 text-xl hover:text-red-300 transition" />
+                      )}
+                    </div>
+                  </div>
+                  
+                  <p>846 000</p>
+                  <button className="bg-amber-300 text-[12px] px-[5px] py-[2px] rounded-[5px]">
+                    59 925 сум/мес
                   </button>
-                </Link>
+                  <p>{e.productName}</p>
+                  <p>🌟4.8 (226 отзывов)</p>
+
+                  <button
+                    className="mt-2 py-1 px-2 bg-violet-500 text-white rounded hover:bg-violet-400"
+                  >
+                    Click to Telegram Bot
+                  </button>
+
+                  <Link to={`/productById/${e.id}`}>
+                    <button className="py-[10px] w-[100%] bg-violet-500 rounded-[5px] text-white mt-[10px] hover:bg-violet-400">
+                      Купить
+                    </button>
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
