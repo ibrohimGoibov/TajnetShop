@@ -11,19 +11,9 @@ import "aos/dist/aos.css";
 import axios from "axios";
 import { IoMdHeart, IoIosHeartEmpty } from "react-icons/io";
 
-interface ProductType {
-  id: number;
-  productName: string;
-  image: string;
-  price: number;
-}
-
-const API_URL = "https://store-api.softclub.tj";
-
 const Product = () => {
   const [range, setRange] = useState<[number, number]>([6990, 1989000]);
-  const [addingId, setAddingId] = useState<number | null>(null);
-  const [searchValue, setSearchValue] = useState<string>("");
+  const [addingId, _] = useState<number | null>(null);
 
   const brands = useBrandStore((state) => state.brands);
   const getBrands = useBrandStore((state) => state.getBrands);
