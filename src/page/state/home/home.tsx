@@ -135,7 +135,7 @@ const Home = () => {
                 <div className="flex items-center justify-between">
               <div className="flex items-center gap-[10px]">
                 <span className="text-violet-600 font-bold text-[18px]">
-                  1 345 200
+                  13 4520
                 </span>
                 <img src={imgLike} width={22} />
                 </div>
